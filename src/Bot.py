@@ -3,6 +3,7 @@ import discord.ext.commands as commands
 import os
 from dotenv import load_dotenv
 import asyncio
+from Error import command_error_handle
 
 
 intents = discord.Intents.default()
@@ -14,6 +15,11 @@ load_dotenv()
 @pim.event
 async def on_ready():
     print(f'We have logged in as {pim.user}')
+
+
+@pim.event
+async def on_command_error(ctx, error):
+    await command_error_handle(ctx, error)
 
 
 async def load():
