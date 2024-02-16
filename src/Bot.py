@@ -21,16 +21,22 @@ async def on_ready():
 async def on_command_error(ctx, error):
     await command_error_handle(ctx, error)
 
+# list of categories containing list of commands
+category = {}
 
-async def load():
+
+# Load all the commands, and get command category types
+async def load_cogs():
     for directory in os.listdir('./cogs'):
+        category[directory] = []
         for file in os.listdir('./cogs/' + directory):
             if file.endswith('.py'):
+                category[directory].append(file)
                 await pim.load_extension(f'cogs.{directory}.{file[:-3]}')
 
 
 async def main():
-    await load()
+    await load_cogs()
     await pim.start(os.getenv('TOKEN'))
 
 asyncio.run(main())
